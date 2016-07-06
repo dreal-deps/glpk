@@ -1,0 +1,12 @@
+*.lo
+*.o
+*.la
+.deps/
+.libs/
+Makefile
+config.h
+config.log
+config.status
+libtool
+examples/glpsol
+stamp-h1

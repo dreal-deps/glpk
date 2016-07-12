@@ -47,8 +47,8 @@ void glp_puts(const char *s)
             goto skip;
       }
       /* write the string on the terminal */
-      fputs(s, stdout);
-      fflush(stdout);
+      fputs(s, stderr);
+      fflush(stderr);
       /* write the string on the tee file, if required */
       if (env->tee_file != NULL)
       {  fputs(s, env->tee_file);

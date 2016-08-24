@@ -475,7 +475,7 @@ static int parse_cmdline(struct csa *csa, int argc, char *argv[])
          else if (p("--seed"))
          {  k++;
             if (k == argc || argv[k][0] == '\0' ||
-               argv[k][0] == '-' && !isdigit((unsigned char)argv[k][1]))
+               (argv[k][0] == '-' && !isdigit((unsigned char)argv[k][1])))
             {  xprintf("No seed value specified\n");
                return 1;
             }
@@ -868,7 +868,7 @@ static int parse_cmdline(struct csa *csa, int argc, char *argv[])
          else if (p("--objbnd"))
          {  k++;
             if (k == argc || argv[k][0] == '\0' ||
-               argv[k][0] == '-' && !isdigit((unsigned char)argv[k][1]))
+               (argv[k][0] == '-' && !isdigit((unsigned char)argv[k][1])))
             {  xprintf("No objective bound specified\n");
                return 1;
             }
@@ -1082,7 +1082,7 @@ err1:    {  xprintf("MPS file processing error\n");
          /* allocate the translator workspace */
          csa->tran = glp_mpl_alloc_wksp();
          /* set seed value */
-         if (csa->seed == 0x80000000)
+         if ((unsigned)csa->seed == 0x80000000)
 #if 0 /* 10/VI-2013 */
          {  csa->seed = glp_time().lo;
 #else
@@ -1300,15 +1300,15 @@ err2:    {  xprintf("MathProg model processing error\n");
       /*--------------------------------------------------------------*/
       /* scale the problem data, if required */
       if (csa->scale)
-      {  if (csa->solution == SOL_BASIC && !csa->smcp.presolve ||
+      {  if ((csa->solution == SOL_BASIC && !csa->smcp.presolve) ||
              csa->solution == SOL_INTERIOR ||
-             csa->solution == SOL_INTEGER && !csa->iocp.presolve)
+             (csa->solution == SOL_INTEGER && !csa->iocp.presolve))
             glp_scale_prob(csa->prob, GLP_SF_AUTO);
       }
       /*--------------------------------------------------------------*/
       /* construct starting LP basis */
-      if (csa->solution == SOL_BASIC && !csa->smcp.presolve ||
-          csa->solution == SOL_INTEGER && !csa->iocp.presolve)
+      if ((csa->solution == SOL_BASIC && !csa->smcp.presolve) ||
+          (csa->solution == SOL_INTEGER && !csa->iocp.presolve))
       {  if (csa->crash == USE_STD_BASIS)
             glp_std_basis(csa->prob);
          else if (csa->crash == USE_ADV_BASIS)

@@ -6,7 +6,7 @@ AC_CONFIG_SRCDIR([src/glpk.h])
 
 AC_CONFIG_MACRO_DIR([m4])
 
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([subdir-objects])
 
 AC_CONFIG_HEADERS([config.h])
 
